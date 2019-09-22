@@ -1,19 +1,16 @@
 <template>
   <div id="app"> 
-    <exportComponent msg="exportComponent"/>
-    <slotSample msg="slotSample"/>
+    <Menu name="Menu"/> 
   </div>
 </template>
 
 <script>
-import exportComponent from "./components/sample1/exportComponent.vue";
-import slotSample from "./components/sample2/slotSample.vue";
+import Menu from "@/components/menu/menu.vue";
 
 export default {
   name: "app",
   components: {
-    exportComponent,
-    slotSample
+    Menu
   }
 };
 </script>
