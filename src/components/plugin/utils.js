@@ -1,60 +1,58 @@
 
-
 var Utils = {};
 Utils.install = function (Vue, options) {
-
     // sample
     Vue.sample = function (str) {
         alert(str);
     }
-    // 단수추가 mainData
-    Vue.addSingularMainData = function (key, value, mainData) {
-
-
-        console.log("key : %o", key);
-        console.log("value : %o", value);
-        console.log("mainData : %o", mainData);
-
+    // 단수갱신 mainData
+    Vue.updateSMainData = function (key, value, mainData) {
+        // 한건만 갱신
+        var obj = {};
+        obj[key] = value
+        var newMainData = Object.assign(mainData, obj);
+        mainData = newMainData;
     }
-    // 복수추가 mainData
-    Vue.addPluralMainData = function (key, value, mainData) {
-
-
-        console.log("key : %o", key);
-        console.log("value : %o", value);
-        console.log("mainData : %o", mainData);
-
+    // 복수갱신 mainData
+    Vue.updatePMainData = function (obj, mainData) {
+        // 있으면 갱신 없으면 추가
+        var newMainData = Object.assign(mainData, obj);
+        mainData = newMainData;
+        console.log("updatePMainData / mainData : %o", mainData);
     }
-    // 샘플 
-    // // 1. 전역 메소드 또는 속성 추가
-    // Vue.myGlobalMethod = function () {
-    //     // 필요한 로직 ...
-    // }
-
-    // // 2. 전역 에셋 추가
-    // Vue.directive('my-directive', {
-    //     bind(el, binding, vnode, oldVnode) {
-    //         // 필요한 로직 ...
-    //     }
-    // })
-
-    // // 3. 컴포넌트 옵션 주입
-    // Vue.mixin({
-    //     created: function () {
-    //         // 필요한 로직 ...
-    //     }
-    // })
-
-    // // 4. 인스턴스 메소드 추가
-    // Vue.prototype.$myMethod = function (options) {
-    //     // 필요한 로직 ...
-    // }
-
+    // debuging mainData
+    Vue.debugMainData = function (mainData) {
+        // console.log 
+        let keys = Object.keys(mainData);
+        for (let idx in keys) {
+            console.log(idx + " : " + keys[idx] + " : %o", mainData[keys[idx]]);
+        }
+    }
 
 }
-
 export default Utils;
 
+// 샘플 
+// // 1. 전역 메소드 또는 속성 추가
+// Vue.myGlobalMethod = function () {
+//     // 필요한 로직 ...
+// }
+// // 2. 전역 에셋 추가
+// Vue.directive('my-directive', {
+//     bind(el, binding, vnode, oldVnode) {
+//         // 필요한 로직 ...
+//     }
+// })
+// // 3. 컴포넌트 옵션 주입
+// Vue.mixin({
+//     created: function () {
+//         // 필요한 로직 ...
+//     }
+// })
+// // 4. 인스턴스 메소드 추가
+// Vue.prototype.$myMethod = function (options) {
+//     // 필요한 로직 ...
+// }
 // https://laracasts.com/discuss/channels/vue/how-to-encapsulate-common-functionality-in-vuejs?page=1
 // 예제 샘플
 // /mixin.js
@@ -66,10 +64,8 @@ export default Utils;
 //     }
 // };
 // export default MyMixin;
-
 // //plugin.js
 // var MyPlugin = {};
-
 // MyPlugin.install = function(Vue, options){
 //     var service = {
 //         getName(){
@@ -79,12 +75,9 @@ export default Utils;
 //             return vm.name;
 //         }
 //     }
-
 //     Vue.prototype.$service = service;
 // };
-
 // export default MyPlugin;
-
 // // base-component.js
 // export default{
 //     methods:{
@@ -93,8 +86,6 @@ export default Utils;
 //         }
 //     }
 // }
-
-
 // //my-component.js
 // import MyMixin from './mixin';
 // export default{
@@ -117,7 +108,6 @@ export default Utils;
 //         }
 //     }
 // }
-
 // //another-component.js
 // import BaseComponent from './base-component';
 // BaseComponent.extend({
@@ -133,17 +123,12 @@ export default Utils;
 //         }
 //     }
 // });
-
-
 // //main.js
-
 // import Vue from 'vue';
 // import MyPlugin from './plugin';
 // import MyComponent from './my-component';
 // import AnotherComponent from './another-component';
-
 // Vue.use(MyPlugin);
-
 // new Vue({
 //     el:'body',
 //     components:{
