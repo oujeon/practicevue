@@ -3,25 +3,30 @@
     <h1>menu</h1>
     <Button v-on:click="onMenu('html')">1. Html Sample</Button>
     <Button v-on:click="onMenu('view1')">2. Maindata</Button>
+    <Button v-on:click="onMenu('view2')">3. vuex</Button>
     <hr/>  
-    <h1 v-if="mainData.menuName === 'html'"> 
+    <div v-if="mainData.menuName === 'html'"> 
       <a href="./sourcesample/vueComponent.html">Vue component</a>
-    </h1> 
-    <h1 v-if="mainData.menuName === 'view1'"> 
+    </div> 
+    <div v-if="mainData.menuName === 'view1'"> 
         <View1 /> 
-    </h1> 
+    </div> 
+     <div v-if="mainData.menuName === 'view2'"> 
+        <View2 /> 
+    </div> 
   </div>
 </template>
 
 <script>
 import View1 from "@/components/view1/view1.vue";
-import Vue from "vue";
+import View2 from "@/components/view2/view2.vue";
 
 export default {
   name: "menu2",
   components: {
     // 사용할 콤포넌트 등록
-    View1
+    View1,
+    View2
   },
   data: function() {
     return {
@@ -32,7 +37,6 @@ export default {
         onMenu(str) {
           // methods
           this.onMenu(str);
-          helloWorld();
         }
       }
     };
