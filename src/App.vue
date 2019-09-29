@@ -1,5 +1,6 @@
 <template>
   <div> 
+    <h1>Practice Vue</h1>
     <Menu/>   
   </div>
 </template>

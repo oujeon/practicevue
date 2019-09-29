@@ -1,6 +1,5 @@
 <template>
-  <div >
-    <h1>menu</h1>
+  <div > 
     <Button v-on:click="onMenu('html')">1. Html Sample</Button>
     <Button v-on:click="onMenu('view1')">2. Maindata</Button>
     <Button v-on:click="onMenu('view2')">3. vuex</Button>

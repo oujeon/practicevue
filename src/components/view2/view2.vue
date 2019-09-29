@@ -16,37 +16,69 @@
 import Vue from "vue";
 import Parent2 from "@/components/view2/parent2.vue";
 import Utils from "@/components/plugin/utils.js";
-//
+import Vuex from "vuex";
+
+// use
+Vue.use(Vuex, {});
 Vue.use(Utils, {});
+//
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    // 동기
+    increment(state) {
+      state.count++;
+    }
+  },
+  actions: {
+    // 비동기
+    increment({ commit }) {
+      commit("increment");
+      // 아래의 내용은 store의 값을 변경해주시면 child로 전달 불규칙하게
+      // 전달한다. 못하기도 한다.
+      // return setTimeout(() => {
+      //   console.log("setTimeOut 실행");
+      //   commit("increment");
+      // }, 5000);
+      // return new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     console.log("setTimeOut 실행");
+      //     commit("increment");
+      //     resolve();
+      //   }, 1000);
+      // });
+    }
+  },
+  modules: {
+    // 다양한 action으로 처리하기 위해서 사용한다.
+  },
+  getters: {
+    getCount(state) {
+      // 여기서 다양한 필터을 할 수 있다.
+      //
+      return state.count;
+    }
+  }
+});
 //
 export default {
   name: "view2",
+  store, // 모든 child에 공유 된다
   data: function() {
     return {
       mainData: {
-        name: "",
-        str: "",
-        arr: [],
-        obj: {},
-        bln: true,
-        num: 1
+        count: 0
       },
       mainFunction: {
-        onComfirm(str) {
+        onStoreIncrement() {
           // methods의 함수을 호출
-          this.onComfirm(str);
+          this.onStoreIncrement();
         },
         onUpdateSMainData(key, value) {
           // methods의 함수을 호출
           this.onUpdateSMainData(key, value);
-        },
-        onUpdatePMainData(obj) {
-          // methods의 함수을 호출
-          this.onUpdatePMainData(obj);
-        },
-        onDebugMainData(obj) {
-          // debug mainData
-          this.onDebugMainData(obj);
         }
       }
     };
@@ -71,20 +103,13 @@ export default {
     //////////////////////////////////////////////////////////////////////////////
     // 못만든다. export default { onFunction(){}  }
     // onComfirm
-    onComfirm(str) {
-      this.mainData.name = str;
+    onStoreIncrement() {
+      store.commit("increment");
+      Vue.updateSMainData("count", store.state.count, this.mainData);
     },
     // onUpdateSMainData
     onUpdateSMainData(key, value) {
       Vue.updateSMainData(key, value, this.mainData);
-    },
-    // onUpdateSMainData
-    onUpdatePMainData(obj) {
-      Vue.updatePMainData(obj, this.mainData);
-    },
-    // onDebugMainData
-    onDebugMainData() {
-      Vue.debugMainData(this.mainData);
     }
   },
   //////////////////////////////////////////////////////////////////////////////
@@ -94,10 +119,8 @@ export default {
   created() {
     // bind
     let mf = this.mainFunction;
-    mf.onComfirm = mf.onComfirm.bind(this);
+    mf.onStoreIncrement = mf.onStoreIncrement.bind(this);
     mf.onUpdateSMainData = mf.onUpdateSMainData.bind(this);
-    mf.onUpdatePMainData = mf.onUpdatePMainData.bind(this);
-    mf.onDebugMainData = mf.onDebugMainData.bind(this);
   },
   beforeMount() {},
   mounted() {},
